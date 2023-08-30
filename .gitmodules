@@ -1,0 +1,3 @@
+[submodule "kakaobot/rotor"]
+	path = kakaobot/rotor
+	url = https://github.com/AkiaCode/rotor

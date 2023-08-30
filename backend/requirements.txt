@@ -1,0 +1,11 @@
+pyspark
+sentence-transformers
+numpy
+fastapi
+pydantic
+uvicorn
+fastapi[uvicorn]
+pyarrow
+konlpy
+torch
+pandas
