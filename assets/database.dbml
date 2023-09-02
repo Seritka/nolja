@@ -1,0 +1,15 @@
+TABLE NOLJA {
+  LSR_GOODS_CD integer [note: '레저상품코드', primary key, not null]
+  SLE_STATE_DC VARCHAR(10) [note: '판매상태설명', not null]
+  FCLTY_TEL_NO VARCHAR(20) [note: '시설전화번호']
+  LSR_GOODS_NM VARCHAR(200) [note: '레저상품명']
+  FCLTY_ROAD_NM_ADDR VARCHAR(2000) [note: '시설도로명주소']
+  LSR_MAIN_THUMB_URL VARCHAR(2000) [note: '레저메인썸네일URL']
+  GOODS_GUID_CN VARCHAR(4000) [note: '상품안내내용']
+  GOODS_HEDMTR_CN VARCHAR(4000) [note: '상품유의사항내용']
+  CSTMR_INQRY_CTTPLC_DC VARCHAR(4000) [note: '고객문의연락처설명']
+  LSR_GOODS_INFO_DC VARCHAR(4000) [note: '레저상품정보설명']
+  RFN_POLICY_DC VARCHAR(4000) [note: '환불정책설명']
+  LSR_DETAIL_IMAGE_URL VARCHAR(10000) [note: '레저상세이미지URL']
+  FCLTY_INFO_CN VARCHAR(4000) [note: '시설정보내용']
+}
