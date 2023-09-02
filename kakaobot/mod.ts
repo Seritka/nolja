@@ -1,6 +1,14 @@
 //@rotor
 class _KakaoBotNOJLA {
     async "/" (req: Request) {
+        const dotenv = (await import("https://deno.land/std@0.201.0/dotenv/mod.ts"))
+
+        const conf = await dotenv.load({
+            envPath: "../.env",
+            examplePath: "../.env.sample",
+            export: true,
+        })
+
         interface Fpwjelf {
             LSR_GOODS_CD: number
             SLE_STATE_DC: string
@@ -33,19 +41,19 @@ class _KakaoBotNOJLA {
         const validateNumber = (n: number | string) => !isNaN(parseFloat(n as string)) && isFinite(n as number) && Number(n) == n;
 
         if (validateNumber(text)) {
-            const resp = await fetch('http://192.168.0.7:8000/fpwjelf/' + text)
+            const resp = await fetch(`${conf.NOLJA_DATA_API}/fpwjelf/` + text)
             if (!resp.ok) return KResponse.simpleText("레저 데이터 서버에 문제가 생겼습니다.")
             const fpwjelf: Fpwjelf = await resp.json()
             return KResponse.simpleText('레저상품명:\n' + fpwjelf.LSR_GOODS_NM  + '\n\n고객 문의 연락처:\n'+ fpwjelf.CSTMR_INQRY_CTTPLC_DC + '\n\n레저 상품 정보:\n' + fpwjelf.FCLTY_INFO_CN + '\n\n시설도로명 주소:\n' + fpwjelf.FCLTY_ROAD_NM_ADDR)
         }
         // https://i.kakao.com/docs/skill-response-format#%EC%98%88%EC%A0%9C-%EC%BD%94%EB%93%9C-7
 
-        const resp_data = await fetch('http://192.168.0.7:8000/data-query?text=' + text)
+        const resp_data = await fetch(`${conf.NOLJA_DATA_API}/data-query?text=` + text)
         if (!resp_data.ok) return KResponse.simpleText("쿼리 데이터 서버에 문제가 생겼습니다.")
         const json_data = await resp_data.json()
         if (json_data === null) return KResponse.simpleText("쿼리 데이터 서버에 문제가 생겼습니다.")
 
-        const resp_ai = await fetch('http://localhost:8001/query', {
+        const resp_ai = await fetch(`${conf.NOLJA_AI_API}/query`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -62,7 +70,7 @@ class _KakaoBotNOJLA {
         let num = 0
         for (const result of json_.results) {
             if (num === 3) break
-            const resp = await fetch('http://192.168.0.7:8000/fpwjelf/' + result.split(' ')[0])
+            const resp = await fetch(`${conf.NOLJA_DATA_API}/fpwjelf/` + result.split(' ')[0])
             if (!resp.ok) return KResponse.simpleText("레저 데이터 서버에 문제가 생겼습니다.")
             const fpwjelf: Fpwjelf = await resp.json()
             fpwjelfs.push(fpwjelf)

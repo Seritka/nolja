@@ -1,4 +1,11 @@
 import { PageProps } from "$fresh/server.ts";
+import { load } from "https://deno.land/std@0.201.0/dotenv/mod.ts";
+
+const conf = await load({
+  envPath: "../.env",
+  examplePath: "../.env.sample",
+  export: true,
+});
 
 interface Params {
   id: string;
@@ -25,7 +32,7 @@ export const handler: Handlers<Params | null> = {
     const { id } = ctx.params
     console.log(id)
     if (!id) return ctx.render(null)
-    const resp = await fetch('http://localhost:8000/fpwjelf/' + id)
+    const resp = await fetch(`${conf.NOLJA_DATA_API}/fpwjelf/` + id)
     if (!resp.ok) return ctx.render(null)
     console.log(resp)
     const fpwjelf: Fpwjelf  = await resp.json()

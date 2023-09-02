@@ -5,7 +5,6 @@ fastapi
 pydantic
 uvicorn
 fastapi[uvicorn]
-pyarrow
 konlpy
 torch
 pandas

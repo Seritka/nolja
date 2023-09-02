@@ -25,7 +25,7 @@ logger = log4j.LogManager.getLogger("NOLJA Backend")
 df_sql = ps.read_sql("NOLJA", con="jdbc:sqlite:./nolja.db")
 df_sql.drop_duplicates(subset=['LSR_GOODS_NM', 'FCLTY_ROAD_NM_ADDR'], inplace=True, ignore_index=False, keep=False)
 
-# soldout = 장사 끝남, sale = 세일(만 표시), stop = 장사함
+# soldout = 장사 끝남, sale = 세일(만 표시), stop = ???
 # SLE_STATE_DC,LSR_GOODS_NM,FCLTY_ROAD_NM_ADDR
 df = df_sql[['LSR_GOODS_CD', 'SLE_STATE_DC', 'LSR_GOODS_NM', 'FCLTY_ROAD_NM_ADDR']]
 

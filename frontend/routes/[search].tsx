@@ -1,5 +1,12 @@
 import { PageProps } from "$fresh/server.ts";
 import SearchBar from '../islands/SearchBar.tsx';
+import { load } from "https://deno.land/std@0.201.0/dotenv/mod.ts";
+
+const conf = await load({
+  envPath: "../.env",
+  examplePath: "../.env.sample",
+  export: true,
+});
 
 interface Params {
     search: string;
@@ -29,12 +36,12 @@ export const handler: Handlers<Params | null> = {
     console.log(search_r)
     if (!search_r) return ctx.render(null)
     // Data 부분
-    const resp_data = await fetch('http://localhost:8000/data-query?text=' + search_r)
+    const resp_data = await fetch(`${conf.NOLJA_DATA_API}/data-query?text=` + search_r)
     if (!resp_data.ok) return ctx.render(null)
     const json_data = await resp_data.json()
     if (json_data === null) return ctx.render(null)
     // AI 부분
-    const resp_ai = await fetch('http://localhost:8001/query', {
+    const resp_ai = await fetch(`${conf.NOLJA_AI_API}/query`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -49,7 +56,7 @@ export const handler: Handlers<Params | null> = {
     console.log(json.results)
     if (json.results === undefined) return ctx.render(null)
     for (const result of json.results) {
-        const resp = await fetch('http://localhost:8000/fpwjelf/' + result.split(' ')[0])
+        const resp = await fetch(`${conf.NOLJA_DATA_API}/fpwjelf/` + result.split(' ')[0])
         if (!resp.ok) return ctx.render(null)
         console.log(resp)
         const fpwjelf: Fpwjelf  = await resp.json()

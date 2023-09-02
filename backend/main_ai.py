@@ -1,5 +1,4 @@
 from sentence_transformers import SentenceTransformer, util
-from konlpy.tag import Hannanum
 import numpy as np
 import torch
 
